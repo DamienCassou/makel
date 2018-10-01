@@ -53,7 +53,7 @@ test-ert:
 	# Run ert tests…
 	@output=$$(mktemp --tmpdir "makel-test-ert-XXXXX"); \
 	${BATCH} \
-	$(if ${TEST-ERT_EVAL},--eval "${TEST-ERT_EVAL}") \
+	$(if ${TEST-ERT_OPTIONS},${TEST-ERT_OPTIONS}) \
 	--eval "(progn ${MAKEL_TEST_ERT_FILES} (ert-run-tests-batch-and-exit))" \
 	> $${output} 2>&1 || cat $${output}
 
@@ -73,7 +73,7 @@ MAKEL_LINT_CHECKDOC_FILES=$(patsubst %,\"%\",${MAKEL_LINT_CHECKDOC_FILES0})
 lint-checkdoc:
 	# Run checkdoc to check Emacs Lisp conventions…
 	@${BATCH} \
-	$(if ${LINT_CHECKDOC_EVAL},--eval "${LINT_CHECKDOC_EVAL}") \
+	$(if ${LINT_CHECKDOC_OPTIONS},${LINT_CHECKDOC_OPTIONS}) \
 	--eval "(mapcar #'checkdoc-file (list ${MAKEL_LINT_CHECKDOC_FILES}))"
 
 ####################################
@@ -86,7 +86,7 @@ lint-package-lint:
 	# Run package-lint to check for packaging mistakes…
 	@${BATCH} \
 	--eval "(require 'package-lint)" \
-	$(if ${LINT_PACKAGE_LINT_EVAL},--eval "${LINT_PACKAGE_LINT_EVAL}") \
+	$(if ${LINT_PACKAGE_LINT_OPTIONS},${LINT_PACKAGE_LINT_OPTIONS}) \
 	--funcall package-lint-batch-and-exit \
 	${MAKEL_LINT_PACKAGE_LINT_FILES}
 
@@ -100,6 +100,6 @@ lint-compile:
 	# Byte compile all and stop on any warning or error…
 	@${BATCH} \
 	--eval "(setq byte-compile-error-on-warn t)" \
-	$(if ${LINT_COMPILE_EVAL},--eval "${LINT_COMPILE_EVAL}") \
+	$(if ${LINT_COMPILE_OPTIONS},${LINT_COMPILE_OPTIONS}) \
 	--funcall batch-byte-compile \
 	${MAKEL_LINT_COMPILE_FILES}
