@@ -30,15 +30,7 @@ ci-dependencies:
 	--funcall package-refresh-contents \
 	${patsubst %,--eval "(package-install (quote %))",${ELPA_DEPENDENCIES}}
 
-####################################
-# Check
-####################################
-
 check: test lint
-
-####################################
-# Tests
-####################################
 
 test: test-ert
 
