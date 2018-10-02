@@ -17,6 +17,15 @@ BATCH=$(EMACSBIN) -Q --batch $(MAKEL_LOAD_PATH) \
 		--eval "(setq enable-dir-local-variables nil)" \
 		--funcall package-initialize
 
+# Definition of a utility function `split_with_commas`.
+# Argument 1: a space-separated list of filenames
+# Return: a comma+space-separated list of filenames
+comma:=,
+empty:=
+space:=$(empty) $(empty)
+split_with_commas=$(subst ${space},${comma}${space},$(1))
+
+
 .PHONY: debug ci-dependencies check test test-ert lint lint-checkdoc lint-package-lint lint-compile
 
 debug:
@@ -42,7 +51,7 @@ MAKEL_TEST_ERT_FILES0=$(filter-out %-autoloads.el,${TEST_ERT_FILES})
 MAKEL_TEST_ERT_FILES=$(patsubst %,(load-file \"%\"),${MAKEL_TEST_ERT_FILES0})
 
 test-ert:
-	# Run ert tests…
+	# Run ert tests from $(call split_with_commas,${MAKEL_TEST_ERT_FILES0})…
 	@output=$$(mktemp --tmpdir "makel-test-ert-XXXXX"); \
 	${BATCH} \
 	$(if ${TEST-ERT_OPTIONS},${TEST-ERT_OPTIONS}) \
@@ -63,7 +72,7 @@ MAKEL_LINT_CHECKDOC_FILES0=$(filter-out %-autoloads.el,${LINT_CHECKDOC_FILES})
 MAKEL_LINT_CHECKDOC_FILES=$(patsubst %,\"%\",${MAKEL_LINT_CHECKDOC_FILES0})
 
 lint-checkdoc:
-	# Run checkdoc to check Emacs Lisp conventions…
+	# Run checkdoc on $(call split_with_commas,${MAKEL_LINT_CHECKDOC_FILES0})…
 	@${BATCH} \
 	$(if ${LINT_CHECKDOC_OPTIONS},${LINT_CHECKDOC_OPTIONS}) \
 	--eval "(mapcar #'checkdoc-file (list ${MAKEL_LINT_CHECKDOC_FILES}))"
@@ -75,7 +84,7 @@ lint-checkdoc:
 MAKEL_LINT_PACKAGE_LINT_FILES=$(filter-out %-autoloads.el,${LINT_PACKAGE_LINT_FILES})
 
 lint-package-lint:
-	# Run package-lint to check for packaging mistakes…
+	# Run package-lint on $(call split_with_commas,${MAKEL_LINT_PACKAGE_LINT_FILES})…
 	@${BATCH} \
 	--eval "(require 'package-lint)" \
 	$(if ${LINT_PACKAGE_LINT_OPTIONS},${LINT_PACKAGE_LINT_OPTIONS}) \
@@ -89,7 +98,7 @@ lint-package-lint:
 MAKEL_LINT_COMPILE_FILES=$(filter-out %-autoloads.el,${LINT_COMPILE_FILES})
 
 lint-compile:
-	# Byte compile all and stop on any warning or error…
+	# Run byte compilation on $(call split_with_commas,${MAKEL_LINT_COMPILE_FILES})…
 	@${BATCH} \
 	--eval "(setq byte-compile-error-on-warn t)" \
 	$(if ${LINT_COMPILE_OPTIONS},${LINT_COMPILE_OPTIONS}) \
