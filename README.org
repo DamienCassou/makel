@@ -1,0 +1,195 @@
+* makel
+
+  #+BEGIN_HTML
+      <p>
+        <a href="https://gitlab.petton.fr/DamienCassou/makel/commits/master">
+          <img alt="pipeline status" src="https://gitlab.petton.fr/DamienCassou/makel/badges/master/pipeline.svg" />
+        </a>
+      </p>
+  #+END_HTML
+
+** Summary
+
+makel is a project consisting of a Makefile (~makel.mk~) that Emacs
+package authors can use to facilitate quality checking (linting and
+tests). The Makefile can be used both locally on the developer machine
+and remotely on a continuous integration machine. These are the rules
+provided by ~makel.mk~:
+
+- test-ert :: run your ERT (the Emacs Lisp Regression Testing tool)
+              tests.
+- lint-checkdoc :: collect and report checkdoc (the Emacs coding
+                   convention tool) errors.
+- lint-package-lint :: collect and report [[https://github.com/purcell/package-lint][package-lint]] (a linting
+     library for package definitions) errors.
+- lint-compile :: collect and report errors and warnings from the
+                  Emacs Lisp compiler.
+- lint :: starts all linting-related rules.
+- test :: starts all test-related rules (only ert for now, but I might
+          add support for other testing frameworks such as buttercup).
+- check :: starts all lint and test rules.
+
+What distinguishes makel from similar tools (see below) is its
+simplicity: simplicity to use it in your Emacs package (there are just
+a handful of variables to define) and simplicity to understand what it
+does (it's just a Makefile).
+
+** Installation
+
+Alongside your package, create a ~Makefile~ file containing the
+following code:
+
+#+BEGIN_SRC makefile
+  makel.mk:
+          # Download makel
+          @if [ -f ../makel/makel.mk ]; then \
+                  ln -s ../makel/makel.mk .; \
+          else \
+                  curl \
+                  --fail --silent --show-error --insecure --location \
+                  --retry 9 --retry-delay 9 \
+                  -O https://gitlab.petton.fr/DamienCassou/makel/raw/v0.3.0/makel.mk; \
+          fi
+
+  # Include makel.mk if present
+  -include makel.mk
+#+END_SRC
+
+The lines above indicate that you want to use ~makel.mk~ if present in
+the current directory. If not, you want to use the one from a sibling
+directory (~../makel/makel.mk~) or from Internet.
+
+You decide which [[https://gitlab.petton.fr/DamienCassou/makel/tags][version of makel]] you want to use by changing the URL
+(here ~v0.3.0~ is the latest version). 
+
+** Usage
+
+You have to tell makel which files you want each rule to look at. This
+is a bit verbose but easy to understand (and easy to copy/paste
+:-)). This can easily be done by setting a few variables at the
+beginning of your Makefile:
+
+#+BEGIN_SRC makefile
+  # Space-separated list of the dependencies of your project (include package-lint if
+  # you want makel to use this linting tool):
+  ELPA_DEPENDENCIES=package-lint libmpdel
+
+  # List of package archives to download above dependencies
+  # from. Available archives are: gnu, melpa, melpa-stable and org:
+  ELPA_ARCHIVES=melpa
+
+  # List of ERT test files:
+  TEST_ERT_FILES=$(wildcard test/*.el)
+
+  # List of files to check for Emacs conventions:
+  LINT_CHECKDOC_FILES=$(wildcard *.el) $(wildcard test/*.el)
+
+  # List of files to check for packaging guidelines:
+  LINT_PACKAGE_LINT_FILES=$(wildcard *.el) $(wildcard test/*.el)
+
+  # List of files to check for compilation errors and warnings:
+  LINT_COMPILE_FILES=$(wildcard *.el) $(wildcard test/*.el)
+#+END_SRC
+
+The variable ~ELPA_DEPENDENCIES~ list Emacs packages that you want
+makel to download if not already present. This is especially useful on
+a continuous integration environment where no external package is
+usually installed.
+
+Above code uses the ~wildcard~ Make function to list Emacs Lisp files
+in the current directory as well as the ~test/~ sub-directory. makel
+makes sure to remove any ~*-autoloads.el~ file from such a list before
+doing anything.
+
+*** Running the rules
+
+Now that you have configured makel, you just need to use it. A design
+choice I made is that makel should only print important information:
+this is to avoid making you spend time searching for potential
+problems in a log that doesn't contain any. If everything is fine,
+makel will only print the tasks it runs:
+
+#+BEGIN_SRC session
+$ make check
+# Run ert tests from test/libmpdel-test.el…
+# Run checkdoc on libmpdel.el, test/libmpdel-test.el…
+# Run package-lint on libmpdel.el, test/libmpdel-test.el…
+# Run byte compilation on libmpdel.el, test/libmpdel-test.el…
+#+END_SRC
+
+makel is only noisy if there actually is a problem to report:
+
+#+BEGIN_SRC session
+$ make check
+# Run ert tests from test/libmpdel-test.el…
+Loading /home/cassou/.emacs.d/lib/libmpdel/test/libmpdel-test.el (source)...
+Running 29 tests (2018-10-03 20:49:23+0200)
+   passed   1/29  libmpdel-test--message-filter-activates-saved-buffer
+   passed   2/29  libmpdel-test--message-filter-keeps-current-buffer-if-saved-one-died
+   passed   3/29  libmpdel-test--msghandler-status-updates-volume
+   passed   4/29  libmpdel-test--raw-send-command-with-handler-add-ignore-handler
+   […]
+Test libmpdel-test-artist-name condition:
+    (ert-test-failed
+     ((should
+       (equal "The Artist"
+	      (libmpdel-artist-name artist)))
+      :form
+      (equal "The Artist" "The Artists")
+      :value nil :explanation
+      (arrays-of-different-length 10 11 "The Artist" "The Artists" first-mismatch-at 10)))
+   FAILED  12/29  libmpdel-test-artist-name
+   passed  13/29  libmpdel-test-create-song-from-data
+   passed  14/29  libmpdel-test-current-playlist-p
+
+Ran 29 tests, 28 results as expected, 1 unexpected (2018-10-03 20:49:23+0200)
+
+1 unexpected results:
+   FAILED  libmpdel-test-artist-name
+
+make: *** [makel.mk:55: test-ert] Error 1
+#+END_SRC
+
+** Emacs packages using makel
+
+The following Emacs packages (all from me :-)) are already using makel
+and could act as examples:
+
+| *Package name* | *Description*                                                                                     |
+|----------------+---------------------------------------------------------------------------------------------------|
+| [[https://gitlab.petton.fr/mpdel/libmpdel][libmpdel]]       | Library to communicate with  [[https://www.musicpd.org/][Music Player Daemon]] (MPD), server-side application for playing music |
+| [[https://gitlab.petton.fr/mpdel/mpdel][mpdel]]          | User interface for [[https://www.musicpd.org/][Music Player Daemon]] (MPD), server-side application for playing music           |
+| [[https://gitlab.petton.fr/elcouch/libelcouch][libelcouch]]     | Library to communicate with [[https://couchdb.apache.org/][CouchDB]] databases                                                     |
+| [[https://gitlab.petton.fr/elcouch/elcouch][elcouch]]        | User interface to view and manipulate [[https://couchdb.apache.org/][CouchDB]] databases                                           |
+| [[https://gitlab.petton.fr/DamienCassou/khardel][khardel]]        | User interface to integrate [[https://github.com/scheibler/khard][khard]], a console cardav client                                        |
+
+** Alternatives
+
+If you are looking for something similar to makel, you might be
+interested in these projects:
+
+- [[https://github.com/cask/cask][Cask]]
+- [[https://github.com/vermiculus/emake.el/][EMake]]
+
+I designed and implemented makel after having used both Cask and EMake
+for some time. My opinion is that makel is simpler to use and maintain
+(it's only a Makefile and it has many unit tests) but may lack some
+features you might need. 
+
+Regarding Cask, I was frustrated by the complexity (I mean
+understanding how things work and play together) and warnings/errors I
+and others would regularly get.
+
+Regarding EMake, I opened a few [[https://github.com/vermiculus/emake.el/pulls?q=is%253Apr+is%253Aclosed+author%253ADamienCassou][PRs]] and [[https://github.com/vermiculus/emake.el/issues?q=is%253Aissue+is%253Aclosed+author%253ADamienCassou][issues]] to make it do what I
+need but the maintainer and I disagreed on several core decisions. I
+made sure I agree with all decisions I take for makel :-).
+
+** License
+
+See [[file:COPYING][COPYING]]. Copyright (c) 2018 Damien Cassou.
+
+  #+BEGIN_HTML
+  <a href="https://liberapay.com/DamienCassou/donate">
+    <img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg">
+  </a>
+  #+END_HTML
