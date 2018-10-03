@@ -56,7 +56,7 @@ test-ert:
 	${BATCH} \
 	$(if ${TEST-ERT_OPTIONS},${TEST-ERT_OPTIONS}) \
 	--eval "(progn ${MAKEL_TEST_ERT_FILES} (ert-run-tests-batch-and-exit))" \
-	> $${output} 2>&1 || cat $${output}
+	> $${output} 2>&1 || ( cat $${output} && exit 1 )
 
 ####################################
 # Lint
