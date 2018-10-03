@@ -71,11 +71,22 @@ lint: lint-checkdoc lint-package-lint lint-compile
 MAKEL_LINT_CHECKDOC_FILES0=$(filter-out %-autoloads.el,${LINT_CHECKDOC_FILES})
 MAKEL_LINT_CHECKDOC_FILES=$(patsubst %,\"%\",${MAKEL_LINT_CHECKDOC_FILES0})
 
+# This rule has to work around the fact that checkdoc doesn't throw
+# errors, it always succeeds. We thus have to check if checkdoc
+# printed anything to decide the exit status of the rule.
 lint-checkdoc:
 	# Run checkdoc on $(call split_with_commas,${MAKEL_LINT_CHECKDOC_FILES0})…
-	@${BATCH} \
+	@output=$$(mktemp --tmpdir "makel-test-ert-XXXXX"); \
+	${BATCH} \
 	$(if ${LINT_CHECKDOC_OPTIONS},${LINT_CHECKDOC_OPTIONS}) \
-	--eval "(mapcar #'checkdoc-file (list ${MAKEL_LINT_CHECKDOC_FILES}))"
+	--eval "(mapcar #'checkdoc-file (list ${MAKEL_LINT_CHECKDOC_FILES}))" \
+	> $${output} 2>&1; \
+	if [ "$$(stat --printf='%s' $${output})" -eq 0 ]; then \
+	  exit 0; \
+	else \
+	  cat $${output}; \
+	  exit 1; \
+	fi
 
 ####################################
 # Lint - Package-lint
