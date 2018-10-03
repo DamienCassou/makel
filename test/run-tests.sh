@@ -109,6 +109,10 @@ check_exit_failure
 run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ok.el data/test-lint-checkdoc-ko.el" lint-checkdoc
 check_output "on data/test-lint-checkdoc-ok.el, data/test-lint-checkdoc-ko.el…"
 
+# Check that linting ignores autoload files
+run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ok.el data/test-lint-checkdoc-ko.el data/test-lint-checkdoc-autoloads.el" lint-checkdoc
+check_output "on data/test-lint-checkdoc-ok.el, data/test-lint-checkdoc-ko.el…"
+
 # Check that linting a clean file echoes no error line
 run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ok.el" lint-checkdoc
 check_not_output "^test-lint-checkdoc-ok.el:"
