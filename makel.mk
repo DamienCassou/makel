@@ -28,6 +28,9 @@ split_with_commas=$(subst ${space},${comma}${space},$(1))
 
 .PHONY: debug ci-dependencies check test test-ert lint lint-checkdoc lint-package-lint lint-compile
 
+makel-version:
+	@echo "makel v${MAKEL_VERSION}"
+
 debug:
 	@echo "MAKEL_LOAD_PATH=${MAKEL_LOAD_PATH}"
 	@echo "MAKEL_SET_ARCHIVES=${MAKEL_SET_ARCHIVES}"

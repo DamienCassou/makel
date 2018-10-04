@@ -28,6 +28,7 @@ provided by ~makel.mk~:
 - test :: starts all test-related rules (only ert for now, but I might
           add support for other testing frameworks such as buttercup).
 - check :: starts all lint and test rules.
+- makel-version :: displays makel's version
 
 What distinguishes makel from similar tools (see below) is its
 simplicity: simplicity to use it in your Emacs package (there are just
