@@ -95,7 +95,10 @@ beginning of your Makefile:
 The variable ~ELPA_DEPENDENCIES~ list Emacs packages that you want
 makel to download if not already present. This is especially useful on
 a continuous integration environment where no external package is
-usually installed.
+usually installed. If some of the dependencies you need are not
+available on a package archive (or not in a recent-enough version),
+you can add URLs to ~DOWNLOAD_DEPENDENCIES~ and they will be
+downloaded to the project's main directory.
 
 Above code uses the ~wildcard~ Make function to list Emacs Lisp files
 in the current directory as well as the ~test/~ sub-directory. makel
