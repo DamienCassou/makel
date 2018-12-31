@@ -30,7 +30,7 @@ space:=$(empty) $(empty)
 split_with_commas=$(subst ${space},${comma}${space},$(1))
 
 
-.PHONY: debug ci-dependencies check test test-ert lint lint-checkdoc lint-package-lint lint-compile
+.PHONY: debug install-elpa-dependencies download-non-elpa-dependencies ci-dependencies check test test-ert lint lint-checkdoc lint-package-lint lint-compile
 
 makel-version:
 	@echo "makel v${MAKEL_VERSION}"
@@ -40,15 +40,23 @@ debug:
 	@echo "MAKEL_SET_ARCHIVES=${MAKEL_SET_ARCHIVES}"
 	@${BATCH} --eval "(message \"%S\" package-archives)"
 
-ci-dependencies:
-	# Install dependencies in a continuous integration environment
-	@$(BATCH) \
-	--funcall package-refresh-contents \
-	${patsubst %,--eval "(package-install (quote %))",${ELPA_DEPENDENCIES}}
+install-elpa-dependencies:
+	@if [ -n "${ELPA_DEPENDENCIES}" ]; then \
+	  echo "# Install ELPA dependencies: $(call split_with_commas,${ELPA_DEPENDENCIES})…"; \
+	  output=$$(mktemp --tmpdir "makel-ci-dependencies-XXXXX"); \
+	  $(BATCH) \
+	    --funcall package-refresh-contents \
+	    ${patsubst %,--eval "(package-install (quote %))",${ELPA_DEPENDENCIES}} \
+	    > $${output} 2>&1 || ( cat $${output} && exit 1 ); \
+	fi
 
+download-non-elpa-dependencies:
 	@if [ -n "${DOWNLOAD_DEPENDENCIES}" ]; then \
+	  echo "# Download non-ELPA dependencies: $(call split_with_commas,${DOWNLOAD_DEPENDENCIES})…"; \
 	  $(CURL) $(patsubst %,"%",${DOWNLOAD_DEPENDENCIES}); \
 	fi
+
+ci-dependencies: install-elpa-dependencies download-non-elpa-dependencies
 
 check: test lint
 
