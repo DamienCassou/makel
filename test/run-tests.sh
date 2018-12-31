@@ -50,7 +50,7 @@ function check_not_output {
     echo "$OUTPUT" | grep --quiet "$1"
     if [[ ${PIPESTATUS[1]} -eq 0 ]]; then
         record_failure
-        echo "Unexpeted finding of '$1' within the result of 'make ${TEST_PARAMS}', output was:"
+        echo "Unexpected finding of '$1' within the result of 'make ${TEST_PARAMS}', output was:"
         display_output
     fi
 }
