@@ -18,7 +18,8 @@ BATCH=$(EMACSBIN) -Q --batch $(MAKEL_LOAD_PATH) \
 		--funcall package-initialize
 
 CURL = curl --fail --silent --show-error --insecure \
-	--location --retry 9 --retry-delay 9
+	--location --retry 9 --retry-delay 9 \
+	--remote-name-all
 
 # Definition of a utility function `split_with_commas`.
 # Argument 1: a space-separated list of filenames
@@ -41,13 +42,13 @@ debug:
 
 ci-dependencies:
 	# Install dependencies in a continuous integration environment
-	$(BATCH) \
+	@$(BATCH) \
 	--funcall package-refresh-contents \
 	${patsubst %,--eval "(package-install (quote %))",${ELPA_DEPENDENCIES}}
 
-	for download in "${DOWNLOAD_DEPENDENCIES}"; do \
-	  $(CURL) -O $$download; \
-	done
+	@if [ -n "${DOWNLOAD_DEPENDENCIES}" ]; then \
+	  $(CURL) $(patsubst %,"%",${DOWNLOAD_DEPENDENCIES}); \
+	fi
 
 check: test lint
 

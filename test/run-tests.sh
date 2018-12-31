@@ -70,6 +70,18 @@ function check_exit_failure {
 }
 
 ####################################
+# Tests - CI-DEPENDENCIES
+####################################
+
+# Check that multiple files can be downloaded with curl
+run CURL="echo curl" DOWNLOAD_DEPENDENCIES="gitlab.com/foo.el gitlab.com/bar.el" ci-dependencies
+check_output "curl gitlab.com/foo.el gitlab.com/bar.el"
+
+# Check that downloading dependencies when there are none is ok
+run CURL="echo curl" DOWNLOAD_DEPENDENCIES="" ci-dependencies
+check_not_output "curl"
+
+####################################
 # Tests - ERT
 ####################################
 
