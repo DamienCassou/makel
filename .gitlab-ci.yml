@@ -2,7 +2,7 @@ image: silex/emacs:26.1-dev
 
 test:
   before_script:
-    - emacs -Q --batch --eval "(require 'package)" --eval "(setq package-archives '((\"melpa\" . \"https://melpa.org/packages/\")))" --funcall package-initialize --funcall package-refresh-contents --eval "(package-install 'package-lint)"
+    - emacs -Q --batch --eval "(require 'package)" --eval "(setq package-archives '((\"melpa\" . \"https://melpa.org/packages/\")))" --funcall package-initialize --funcall package-refresh-contents --eval "(package-install 'package-lint)" --eval "(package-install 'buttercup)"
 
   script:
     - emacs --version

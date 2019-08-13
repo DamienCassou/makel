@@ -30,7 +30,7 @@ space:=$(empty) $(empty)
 split_with_commas=$(subst ${space},${comma}${space},$(1))
 
 
-.PHONY: debug install-elpa-dependencies download-non-elpa-dependencies ci-dependencies check test test-ert lint lint-checkdoc lint-package-lint lint-compile
+.PHONY: debug install-elpa-dependencies download-non-elpa-dependencies ci-dependencies check test test-ert test-buttercup lint lint-checkdoc lint-package-lint lint-compile
 
 makel-version:
 	@echo "makel v${MAKEL_VERSION}"
@@ -60,7 +60,11 @@ ci-dependencies: install-elpa-dependencies download-non-elpa-dependencies
 
 check: test lint
 
-test: test-ert
+####################################
+# Tests
+####################################
+
+test: test-ert test-buttercup
 
 ####################################
 # Tests - ERT
@@ -76,6 +80,19 @@ test-ert:
 	$(if ${TEST_ERT_OPTIONS},${TEST_ERT_OPTIONS}) \
 	--eval "(progn ${MAKEL_TEST_ERT_FILES} (ert-run-tests-batch-and-exit))" \
 	> $${output} 2>&1 || ( cat $${output} && exit 1 )
+
+####################################
+# Tests - Buttercup
+####################################
+
+test-buttercup:
+	# Run buttercup tests from $(call split_with_commas,${MAKEL_TEST_BUTTERCUP_FILES0})…
+	@output=$$(mktemp --tmpdir "makel-test-buttercup-XXXXX"); \
+	${BATCH} \
+	--eval "(require 'buttercup)" \
+	-f buttercup-run-discover ${TEST_BUTTERCUP_OPTIONS} \
+	> $${output} 2>&1 || ( cat $${output} && exit 1 )
+
 
 ####################################
 # Lint

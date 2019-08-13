@@ -114,6 +114,22 @@ run TEST_ERT_FILES="data/test-ert-ok-1.el data/test-ert-ko.el" test-ert
 check_exit_failure
 
 ####################################
+# Tests - Buttercup
+####################################
+
+# Check that running successful tests exits with success status
+run TEST_BUTTERCUP_OPTIONS="data/buttercup/ok" test-buttercup
+check_exit_success
+
+# Check that running a failing test exits with failure status
+run TEST_BUTTERCUP_OPTIONS="data/buttercup/ko" test-buttercup
+check_exit_failure
+
+# Check that running tests displays test names that fail
+run TEST_BUTTERCUP_OPTIONS="data/buttercup/ko" test-buttercup
+check_output "test-buttercup-ko should fail"
+
+####################################
 # Lint - Checkdoc
 ####################################
 
