@@ -86,7 +86,7 @@ test-ert:
 ####################################
 
 test-buttercup:
-	# Run buttercup tests from $(call split_with_commas,${MAKEL_TEST_BUTTERCUP_FILES0})…
+	# Run buttercup tests on $(call split_with_commas,${TEST_BUTTERCUP_OPTIONS})
 	@output=$$(mktemp --tmpdir "makel-test-buttercup-XXXXX"); \
 	${BATCH} \
 	--eval "(require 'buttercup)" \

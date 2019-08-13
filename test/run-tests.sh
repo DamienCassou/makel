@@ -117,6 +117,10 @@ check_exit_failure
 # Tests - Buttercup
 ####################################
 
+# Check that running tests displays the options
+run TEST_BUTTERCUP_OPTIONS="data/buttercup/ok" test-buttercup
+check_output data/buttercup/ok
+
 # Check that running successful tests exits with success status
 run TEST_BUTTERCUP_OPTIONS="data/buttercup/ok" test-buttercup
 check_exit_success
