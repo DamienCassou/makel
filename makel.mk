@@ -95,7 +95,7 @@ MAKEL_LINT_CHECKDOC_FILES=$(patsubst %,\"%\",${MAKEL_LINT_CHECKDOC_FILES0})
 # printed anything to decide the exit status of the rule.
 lint-checkdoc:
 	# Run checkdoc on $(call split_with_commas,${MAKEL_LINT_CHECKDOC_FILES0})…
-	@output=$$(mktemp --tmpdir "makel-test-ert-XXXXX"); \
+	@output=$$(mktemp --tmpdir "makel-lint-checkdoc-XXXXX"); \
 	${BATCH} \
 	$(if ${LINT_CHECKDOC_OPTIONS},${LINT_CHECKDOC_OPTIONS}) \
 	--eval "(mapcar #'checkdoc-file (list ${MAKEL_LINT_CHECKDOC_FILES}))" \
