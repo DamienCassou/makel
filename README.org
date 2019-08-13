@@ -18,6 +18,7 @@ provided by ~makel.mk~:
 
 - test-ert :: run your ERT (the Emacs Lisp Regression Testing tool)
               tests.
+- test-buttercup :: run your [[https://github.com/jorgenschaefer/emacs-buttercup][buttercup]] tests.
 - lint-checkdoc :: collect and report checkdoc (the Emacs coding
                    convention tool) errors.
 - lint-package-lint :: collect and report [[https://github.com/purcell/package-lint][package-lint]] (a linting
@@ -25,8 +26,7 @@ provided by ~makel.mk~:
 - lint-compile :: collect and report errors and warnings from the
                   Emacs Lisp compiler.
 - lint :: starts all linting-related rules.
-- test :: starts all test-related rules (only ert for now, but I might
-          add support for other testing frameworks such as buttercup).
+- test :: starts all test-related rules (both ert and buttercup tests).
 - check :: starts all lint and test rules.
 - makel-version :: displays makel's version
 
@@ -67,13 +67,13 @@ You decide which [[https://gitlab.petton.fr/DamienCassou/makel/tags][version of 
 
 You have to tell makel which files you want each rule to look at. This
 is a bit verbose but easy to understand (and easy to copy/paste
-:-)). This can easily be done by setting a few variables at the
-beginning of your Makefile:
+:-)). This can be done by setting a few variables at the beginning of
+your Makefile:
 
 #+BEGIN_SRC makefile
-  # Space-separated list of the dependencies of your project (include package-lint if
-  # you want makel to use this linting tool):
-  ELPA_DEPENDENCIES=package-lint libmpdel
+  # Space-separated list of the dependencies of your project (include
+  # package-lint and/or buttercup if you want makel to use these tools):
+  ELPA_DEPENDENCIES=package-lint
 
   # List of package archives to download above dependencies
   # from. Available archives are: gnu, melpa, melpa-stable and org:
@@ -82,14 +82,17 @@ beginning of your Makefile:
   # List of ERT test files:
   TEST_ERT_FILES=$(wildcard test/*.el)
 
+  # List of buttercup test directories:
+  TEST_BUTTERCUP_OPTIONS=specs
+
   # List of files to check for Emacs conventions:
-  LINT_CHECKDOC_FILES=$(wildcard *.el) $(wildcard test/*.el)
+  LINT_CHECKDOC_FILES=$(wildcard *.el) ${TEST_ERT_FILES}
 
   # List of files to check for packaging guidelines:
-  LINT_PACKAGE_LINT_FILES=$(wildcard *.el) $(wildcard test/*.el)
+  LINT_PACKAGE_LINT_FILES=$(wildcard *.el)
 
   # List of files to check for compilation errors and warnings:
-  LINT_COMPILE_FILES=$(wildcard *.el) $(wildcard test/*.el)
+  LINT_COMPILE_FILES=${LINT_CHECKDOC_FILES}
 #+END_SRC
 
 The variable ~ELPA_DEPENDENCIES~ list Emacs packages that you want
@@ -117,7 +120,7 @@ makel will only print the tasks it runs:
 $ make check
 # Run ert tests from test/libmpdel-test.el…
 # Run checkdoc on libmpdel.el, test/libmpdel-test.el…
-# Run package-lint on libmpdel.el, test/libmpdel-test.el…
+# Run package-lint on libmpdel.el…
 # Run byte compilation on libmpdel.el, test/libmpdel-test.el…
 #+END_SRC
 
@@ -186,11 +189,11 @@ and others would regularly get.
 
 Regarding EMake, I opened a few [[https://github.com/vermiculus/emake.el/pulls?q=is%253Apr+is%253Aclosed+author%253ADamienCassou][PRs]] and [[https://github.com/vermiculus/emake.el/issues?q=is%253Aissue+is%253Aclosed+author%253ADamienCassou][issues]] to make it do what I
 need but the maintainer and I disagreed on several core decisions. I
-made sure I agree with all decisions I take for makel :-).
+made sure I agree with all decisions I took for makel :-).
 
 ** License
 
-See [[file:COPYING][COPYING]]. Copyright (c) 2018 Damien Cassou.
+See [[file:COPYING][COPYING]]. Copyright (c) 2018-2019 Damien Cassou.
 
   #+BEGIN_HTML
   <a href="https://liberapay.com/DamienCassou/donate">
