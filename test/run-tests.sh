@@ -133,6 +133,10 @@ check_exit_failure
 run TEST_BUTTERCUP_OPTIONS="data/buttercup/ko" test-buttercup
 check_output "test-buttercup-ko should fail"
 
+# Check that empty TEST_BUTTERCUP_OPTIONS doesn't run buttercup
+run TEST_BUTTERCUP_OPTIONS="" test-buttercup
+check_not_output "buttercup"
+
 ####################################
 # Lint - Checkdoc
 ####################################
