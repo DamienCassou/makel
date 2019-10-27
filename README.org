@@ -45,7 +45,7 @@ following code:
                   curl \
                   --fail --silent --show-error --insecure --location \
                   --retry 9 --retry-delay 9 \
-                  -O https://gitlab.petton.fr/DamienCassou/makel/raw/v0.5.2/makel.mk; \
+                  -O https://gitlab.petton.fr/DamienCassou/makel/raw/v0.5.3/makel.mk; \
           fi
 
   # Include makel.mk if present
@@ -57,7 +57,7 @@ the current directory. If not, you want to use the one from a sibling
 directory (~../makel/makel.mk~) or from Internet.
 
 You decide which [[https://gitlab.petton.fr/DamienCassou/makel/tags][version of makel]] you want to use by changing the URL
-(here ~v0.5.2~ is the latest version).
+(here ~v0.5.3~ is the latest version).
 
 ** Usage
 
