@@ -1,12 +1,8 @@
 * makel
 
-  #+BEGIN_HTML
-      <p>
-        <a href="https://gitlab.petton.fr/DamienCassou/makel/commits/master">
-          <img alt="pipeline status" src="https://gitlab.petton.fr/DamienCassou/makel/badges/master/pipeline.svg" />
-        </a>
-      </p>
-  #+END_HTML
+<a href="https://drone.petton.fr/DamienCassou/makel">
+  <img src="https://drone.petton.fr/api/badges/DamienCassou/makel/status.svg" />
+</a>
 
 ** Summary
 
