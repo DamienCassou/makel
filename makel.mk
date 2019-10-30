@@ -1,4 +1,4 @@
-MAKEL_VERSION=0.5.2
+MAKEL_VERSION=0.5.3
 
 MAKEL_LOAD_PATH=-L . $(patsubst %,-L ../%,$(ELPA_DEPENDENCIES))
 
@@ -86,13 +86,14 @@ test-ert:
 ####################################
 
 test-buttercup:
-	# Run buttercup tests on $(call split_with_commas,${TEST_BUTTERCUP_OPTIONS})
-	@output=$$(mktemp --tmpdir "makel-test-buttercup-XXXXX"); \
-	${BATCH} \
-	--eval "(require 'buttercup)" \
-	-f buttercup-run-discover ${TEST_BUTTERCUP_OPTIONS} \
-	> $${output} 2>&1 || ( cat $${output} && exit 1 )
-
+	@if [ -n "${TEST_BUTTERCUP_OPTIONS}" ]; then \
+	  echo "# Run buttercup tests on $(call split_with_commas,${TEST_BUTTERCUP_OPTIONS})"; \
+	  output=$$(mktemp --tmpdir "makel-test-buttercup-XXXXX"); \
+	  ${BATCH} \
+	  --eval "(require 'buttercup)" \
+	  -f buttercup-run-discover ${TEST_BUTTERCUP_OPTIONS} \
+	  > $${output} 2>&1 || ( cat $${output} && exit 1 ); \
+	fi;
 
 ####################################
 # Lint

@@ -1,12 +1,8 @@
 * makel
 
-  #+BEGIN_HTML
-      <p>
-        <a href="https://gitlab.petton.fr/DamienCassou/makel/commits/master">
-          <img alt="pipeline status" src="https://gitlab.petton.fr/DamienCassou/makel/badges/master/pipeline.svg" />
-        </a>
-      </p>
-  #+END_HTML
+<a href="https://drone.petton.fr/DamienCassou/makel">
+  <img src="https://drone.petton.fr/api/badges/DamienCassou/makel/status.svg" />
+</a>
 
 ** Summary
 
@@ -49,7 +45,7 @@ following code:
                   curl \
                   --fail --silent --show-error --insecure --location \
                   --retry 9 --retry-delay 9 \
-                  -O https://gitlab.petton.fr/DamienCassou/makel/raw/v0.5.2/makel.mk; \
+                  -O https://gitlab.petton.fr/DamienCassou/makel/raw/v0.5.3/makel.mk; \
           fi
 
   # Include makel.mk if present
@@ -61,7 +57,7 @@ the current directory. If not, you want to use the one from a sibling
 directory (~../makel/makel.mk~) or from Internet.
 
 You decide which [[https://gitlab.petton.fr/DamienCassou/makel/tags][version of makel]] you want to use by changing the URL
-(here ~v0.5.2~ is the latest version).
+(here ~v0.5.3~ is the latest version).
 
 ** Usage
 
