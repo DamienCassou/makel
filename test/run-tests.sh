@@ -173,6 +173,10 @@ check_exit_failure
 run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ok.el data/test-lint-checkdoc-ko.el" lint-checkdoc
 check_exit_failure
 
+# Check that empty LINT_CHECKDOC_FILES doesn't run checkdoc
+run LINT_CHECKDOC_FILES="" lint-checkdoc
+check_not_output "checkdoc"
+
 ####################################
 # Lint - Package-lint
 ####################################

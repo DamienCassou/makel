@@ -114,18 +114,20 @@ MAKEL_LINT_CHECKDOC_FILES=$(patsubst %,\"%\",${MAKEL_LINT_CHECKDOC_FILES0})
 # errors, it always succeeds. We thus have to check if checkdoc
 # printed anything to decide the exit status of the rule.
 lint-checkdoc:
-	# Run checkdoc on $(call split_with_commas,${MAKEL_LINT_CHECKDOC_FILES0})…
-	@output=$$(mktemp --tmpdir "makel-lint-checkdoc-XXXXX"); \
-	${BATCH} \
-	$(if ${LINT_CHECKDOC_OPTIONS},${LINT_CHECKDOC_OPTIONS}) \
-	--eval "(mapcar #'checkdoc-file (list ${MAKEL_LINT_CHECKDOC_FILES}))" \
-	> $${output} 2>&1; \
-	if [ "$$(stat --printf='%s' $${output})" -eq 0 ]; then \
-	  exit 0; \
-	else \
-	  cat $${output}; \
-	  exit 1; \
-	fi
+	@if [ -n "${LINT_CHECKDOC_FILES}" ]; then \
+	  echo "# Run checkdoc on $(call split_with_commas,${MAKEL_LINT_CHECKDOC_FILES0})…"; \
+	  output=$$(mktemp --tmpdir "makel-lint-checkdoc-XXXXX"); \
+	  ${BATCH} \
+	  $(if ${LINT_CHECKDOC_OPTIONS},${LINT_CHECKDOC_OPTIONS}) \
+	  --eval "(mapcar #'checkdoc-file (list ${MAKEL_LINT_CHECKDOC_FILES}))" \
+	  > $${output} 2>&1; \
+	  if [ "$$(stat --printf='%s' $${output})" -eq 0 ]; then \
+	    exit 0; \
+	  else \
+	    cat $${output}; \
+	    exit 1; \
+	  fi; \
+	fi;
 
 ####################################
 # Lint - Package-lint
