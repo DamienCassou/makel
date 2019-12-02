@@ -152,9 +152,11 @@ lint-package-lint:
 MAKEL_LINT_COMPILE_FILES=$(filter-out %-autoloads.el,${LINT_COMPILE_FILES})
 
 lint-compile:
-	# Run byte compilation on $(call split_with_commas,${MAKEL_LINT_COMPILE_FILES})…
-	@${BATCH} \
-	--eval "(setq byte-compile-error-on-warn t)" \
-	$(if ${LINT_COMPILE_OPTIONS},${LINT_COMPILE_OPTIONS}) \
-	--funcall batch-byte-compile \
-	${MAKEL_LINT_COMPILE_FILES}
+	@if [ -n "${LINT_COMPILE_FILES}" ]; then \
+	  echo "# Run byte compilation on $(call split_with_commas,${MAKEL_LINT_COMPILE_FILES})…"; \
+	  ${BATCH} \
+	  --eval "(setq byte-compile-error-on-warn t)" \
+	  $(if ${LINT_COMPILE_OPTIONS},${LINT_COMPILE_OPTIONS}) \
+	  --funcall batch-byte-compile \
+	  ${MAKEL_LINT_COMPILE_FILES}; \
+	fi

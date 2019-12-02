@@ -237,6 +237,11 @@ check_exit_failure
 run LINT_COMPILE_FILES="data/test-lint-compile-ok.el data/test-lint-compile-ko.el" lint-compile
 check_exit_failure
 
+# Check that empty TEST_COMPILE-FILES doesn't byte compile
+run TEST_COMPILE-FILES="" lint-compile
+check_not_output "compil"
+
+
 ####################################
 # Conclusion
 ####################################
