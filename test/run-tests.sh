@@ -113,6 +113,10 @@ check_exit_failure
 run TEST_ERT_FILES="data/test-ert-ok-1.el data/test-ert-ko.el" test-ert
 check_exit_failure
 
+# Check that empty TEST_ERT_FILES doesn't run ert
+run TEST_ERT_FILES="" test-ert
+check_not_output "ert"
+
 ####################################
 # Tests - Buttercup
 ####################################

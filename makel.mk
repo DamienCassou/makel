@@ -74,12 +74,14 @@ MAKEL_TEST_ERT_FILES0=$(filter-out %-autoloads.el,${TEST_ERT_FILES})
 MAKEL_TEST_ERT_FILES=$(patsubst %,(load-file \"%\"),${MAKEL_TEST_ERT_FILES0})
 
 test-ert:
-	# Run ert tests from $(call split_with_commas,${MAKEL_TEST_ERT_FILES0})…
-	@output=$$(mktemp --tmpdir "makel-test-ert-XXXXX"); \
-	${BATCH} \
-	$(if ${TEST_ERT_OPTIONS},${TEST_ERT_OPTIONS}) \
-	--eval "(progn ${MAKEL_TEST_ERT_FILES} (ert-run-tests-batch-and-exit))" \
-	> $${output} 2>&1 || ( cat $${output} && exit 1 )
+	@if [ -n "${TEST_ERT_FILES}" ]; then \
+	  echo "# Run ert tests from $(call split_with_commas,${MAKEL_TEST_ERT_FILES0})…"; \
+	  output=$$(mktemp --tmpdir "makel-test-ert-XXXXX"); \
+	  ${BATCH} \
+	  $(if ${TEST_ERT_OPTIONS},${TEST_ERT_OPTIONS}) \
+	  --eval "(progn ${MAKEL_TEST_ERT_FILES} (ert-run-tests-batch-and-exit))" \
+	  > $${output} 2>&1 || ( cat $${output} && exit 1 ); \
+	fi;
 
 ####################################
 # Tests - Buttercup
