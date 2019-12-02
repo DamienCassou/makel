@@ -43,11 +43,10 @@ debug:
 install-elpa-dependencies:
 	@if [ -n "${ELPA_DEPENDENCIES}" ]; then \
 	  echo "# Install ELPA dependencies: $(call split_with_commas,${ELPA_DEPENDENCIES})…"; \
-	  output=$$(mktemp --tmpdir "makel-ci-dependencies-XXXXX"); \
-	  $(BATCH) \
+	  output=$$($(BATCH) \
 	    --funcall package-refresh-contents \
-	    ${patsubst %,--eval "(package-install (quote %))",${ELPA_DEPENDENCIES}} \
-	    > $${output} 2>&1 || ( cat $${output} && exit 1 ); \
+	    ${patsubst %,--eval "(package-install (quote %))",${ELPA_DEPENDENCIES}} 2>&1) \
+	    || ( echo "$${output}" && exit 1 ); \
 	fi
 
 download-non-elpa-dependencies:
@@ -76,11 +75,10 @@ MAKEL_TEST_ERT_FILES=$(patsubst %,(load-file \"%\"),${MAKEL_TEST_ERT_FILES0})
 test-ert:
 	@if [ -n "${TEST_ERT_FILES}" ]; then \
 	  echo "# Run ert tests from $(call split_with_commas,${MAKEL_TEST_ERT_FILES0})…"; \
-	  output=$$(mktemp --tmpdir "makel-test-ert-XXXXX"); \
-	  ${BATCH} \
+	  output=$$(${BATCH} \
 	  $(if ${TEST_ERT_OPTIONS},${TEST_ERT_OPTIONS}) \
-	  --eval "(progn ${MAKEL_TEST_ERT_FILES} (ert-run-tests-batch-and-exit))" \
-	  > $${output} 2>&1 || ( cat $${output} && exit 1 ); \
+	  --eval "(progn ${MAKEL_TEST_ERT_FILES} (ert-run-tests-batch-and-exit))" 2>&1) \
+	  || ( echo "$${output}" && exit 1 ); \
 	fi;
 
 ####################################
@@ -90,11 +88,10 @@ test-ert:
 test-buttercup:
 	@if [ -n "${TEST_BUTTERCUP_OPTIONS}" ]; then \
 	  echo "# Run buttercup tests on $(call split_with_commas,${TEST_BUTTERCUP_OPTIONS})"; \
-	  output=$$(mktemp --tmpdir "makel-test-buttercup-XXXXX"); \
-	  ${BATCH} \
-	  --eval "(require 'buttercup)" \
-	  -f buttercup-run-discover ${TEST_BUTTERCUP_OPTIONS} \
-	  > $${output} 2>&1 || ( cat $${output} && exit 1 ); \
+	  output=$$(${BATCH} \
+	    --eval "(require 'buttercup)" \
+	    -f buttercup-run-discover ${TEST_BUTTERCUP_OPTIONS} 2>&1) \
+	    || ( echo "$${output}" && exit 1 ); \
 	fi;
 
 ####################################
@@ -116,17 +113,10 @@ MAKEL_LINT_CHECKDOC_FILES=$(patsubst %,\"%\",${MAKEL_LINT_CHECKDOC_FILES0})
 lint-checkdoc:
 	@if [ -n "${LINT_CHECKDOC_FILES}" ]; then \
 	  echo "# Run checkdoc on $(call split_with_commas,${MAKEL_LINT_CHECKDOC_FILES0})…"; \
-	  output=$$(mktemp --tmpdir "makel-lint-checkdoc-XXXXX"); \
-	  ${BATCH} \
-	  $(if ${LINT_CHECKDOC_OPTIONS},${LINT_CHECKDOC_OPTIONS}) \
-	  --eval "(mapcar #'checkdoc-file (list ${MAKEL_LINT_CHECKDOC_FILES}))" \
-	  > $${output} 2>&1; \
-	  if [ "$$(stat --printf='%s' $${output})" -eq 0 ]; then \
-	    exit 0; \
-	  else \
-	    cat $${output}; \
-	    exit 1; \
-	  fi; \
+	  output=$$(${BATCH} \
+	    $(if ${LINT_CHECKDOC_OPTIONS},${LINT_CHECKDOC_OPTIONS}) \
+	    --eval "(mapcar #'checkdoc-file (list ${MAKEL_LINT_CHECKDOC_FILES}))" 2>&1); \
+	  [ -z "$${output}" ] || (echo "$${output}"; exit 1); \
 	fi;
 
 ####################################
