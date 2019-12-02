@@ -158,15 +158,15 @@ run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ok.el" lint-checkdoc
 check_not_output "^test-lint-checkdoc-ok.el:"
 
 # Check that linting an unclean file echoes an error line
-run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ko.el" lint-checkdoc
-check_output "^test-lint-checkdoc-ko.el:.* Argument .foo. should appear (as FOO) in the doc string$"
+run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ko-1.el" lint-checkdoc
+check_output "^test-lint-checkdoc-ko-1.el:.* Argument .foo. should appear (as FOO) in the doc string$"
 
 # Check that linting a clean file exits with success status
 run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ok.el" lint-checkdoc
 check_exit_success
 
 # Check that linting an unclean file exits with failure status
-run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ko.el" lint-checkdoc
+run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ko-1.el" lint-checkdoc
 check_exit_failure
 
 # Check that linting several files including an unclean one exits with failure status
