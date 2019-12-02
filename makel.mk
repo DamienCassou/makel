@@ -132,12 +132,14 @@ lint-checkdoc:
 MAKEL_LINT_PACKAGE_LINT_FILES=$(filter-out %-autoloads.el,${LINT_PACKAGE_LINT_FILES})
 
 lint-package-lint:
-	# Run package-lint on $(call split_with_commas,${MAKEL_LINT_PACKAGE_LINT_FILES})…
-	@${BATCH} \
-	--eval "(require 'package-lint)" \
-	$(if ${LINT_PACKAGE_LINT_OPTIONS},${LINT_PACKAGE_LINT_OPTIONS}) \
-	--funcall package-lint-batch-and-exit \
-	${MAKEL_LINT_PACKAGE_LINT_FILES}
+	@if [ -n "${LINT_PACKAGE_LINT_FILES}" ]; then \
+	  echo "# Run package-lint on $(call split_with_commas,${MAKEL_LINT_PACKAGE_LINT_FILES})…"; \
+	  ${BATCH} \
+	  --eval "(require 'package-lint)" \
+	  $(if ${LINT_PACKAGE_LINT_OPTIONS},${LINT_PACKAGE_LINT_OPTIONS}) \
+	  --funcall package-lint-batch-and-exit \
+	  ${MAKEL_LINT_PACKAGE_LINT_FILES}; \
+	fi;
 
 ####################################
 # Lint - Compilation

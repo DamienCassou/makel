@@ -197,6 +197,10 @@ check_exit_failure
 run LINT_PACKAGE_LINT_FILES="data/test-lint-package-lint-ok.el data/test-lint-package-lint-ko.el" lint-package-lint
 check_exit_failure
 
+# Check that empty LINT_PACKAGE_LINT_FILES doesn't run package-lint
+run LINT_PACKAGE_LINT_FILES="" lint-package-lint
+check_not_output "package-lint"
+
 ####################################
 # Lint - Compilation
 ####################################
