@@ -113,6 +113,10 @@ check_exit_failure
 run TEST_ERT_FILES="data/test-ert-ok-1.el data/test-ert-ko.el" test-ert
 check_exit_failure
 
+# Check that empty TEST_ERT_FILES doesn't run ert
+run TEST_ERT_FILES="" test-ert
+check_not_output "ert"
+
 ####################################
 # Tests - Buttercup
 ####################################
@@ -154,20 +158,24 @@ run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ok.el" lint-checkdoc
 check_not_output "^test-lint-checkdoc-ok.el:"
 
 # Check that linting an unclean file echoes an error line
-run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ko.el" lint-checkdoc
-check_output "^test-lint-checkdoc-ko.el:.* Argument .foo. should appear (as FOO) in the doc string$"
+run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ko-1.el" lint-checkdoc
+check_output "^test-lint-checkdoc-ko-1.el:.* Argument .foo. should appear (as FOO) in the doc string$"
 
 # Check that linting a clean file exits with success status
 run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ok.el" lint-checkdoc
 check_exit_success
 
 # Check that linting an unclean file exits with failure status
-run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ko.el" lint-checkdoc
+run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ko-1.el" lint-checkdoc
 check_exit_failure
 
 # Check that linting several files including an unclean one exits with failure status
 run LINT_CHECKDOC_FILES="data/test-lint-checkdoc-ok.el data/test-lint-checkdoc-ko.el" lint-checkdoc
 check_exit_failure
+
+# Check that empty LINT_CHECKDOC_FILES doesn't run checkdoc
+run LINT_CHECKDOC_FILES="" lint-checkdoc
+check_not_output "checkdoc"
 
 ####################################
 # Lint - Package-lint
@@ -197,6 +205,10 @@ check_exit_failure
 run LINT_PACKAGE_LINT_FILES="data/test-lint-package-lint-ok.el data/test-lint-package-lint-ko.el" lint-package-lint
 check_exit_failure
 
+# Check that empty LINT_PACKAGE_LINT_FILES doesn't run package-lint
+run LINT_PACKAGE_LINT_FILES="" lint-package-lint
+check_not_output "package-lint"
+
 ####################################
 # Lint - Compilation
 ####################################
@@ -224,6 +236,11 @@ check_exit_failure
 # Check that compilation of several files including an unclean one exits with failure status
 run LINT_COMPILE_FILES="data/test-lint-compile-ok.el data/test-lint-compile-ko.el" lint-compile
 check_exit_failure
+
+# Check that empty TEST_COMPILE-FILES doesn't byte compile
+run TEST_COMPILE-FILES="" lint-compile
+check_not_output "compil"
+
 
 ####################################
 # Conclusion
