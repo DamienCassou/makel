@@ -169,6 +169,7 @@ interested in these projects:
 
 - [[https://github.com/cask/cask][Cask]]
 - [[https://github.com/vermiculus/emake.el/][EMake]]
+- [[https://github.com/doublep/eldev][Eldev]]
 
 I designed and implemented makel after having used both Cask and EMake
 for some time. My opinion is that makel is simpler to use and maintain
@@ -182,6 +183,10 @@ and others would regularly get.
 Regarding EMake, I opened a few [[https://github.com/vermiculus/emake.el/pulls?q=is%253Apr+is%253Aclosed+author%253ADamienCassou][PRs]] and [[https://github.com/vermiculus/emake.el/issues?q=is%253Aissue+is%253Aclosed+author%253ADamienCassou][issues]] to make it do what I
 need but the maintainer and I disagreed on several core decisions. I
 made sure I agree with all decisions I took for makel :-).
+
+Eldev is a new alternative that seems to be worth keeping an eye
+on. For now, it doesn't support running buttercup or checking the
+quality of the code.
 
 ** License
 
