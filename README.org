@@ -12,19 +12,15 @@ tests). The Makefile can be used both locally on the developer machine
 and remotely on a continuous integration machine. These are the rules
 provided by ~makel.mk~:
 
-- test-ert :: run your ERT (the Emacs Lisp Regression Testing tool)
-              tests.
-- test-buttercup :: run your [[https://github.com/jorgenschaefer/emacs-buttercup][buttercup]] tests.
-- lint-checkdoc :: collect and report checkdoc (the Emacs coding
-                   convention tool) errors.
-- lint-package-lint :: collect and report [[https://github.com/purcell/package-lint][package-lint]] (a linting
-     library for package definitions) errors.
-- lint-compile :: collect and report errors and warnings from the
-                  Emacs Lisp compiler.
-- lint :: starts all linting-related rules.
-- test :: starts all test-related rules (both ert and buttercup tests).
-- check :: starts all lint and test rules.
-- makel-version :: displays makel's version
+- *test-ert* : run your ERT (the Emacs Lisp Regression Testing tool) tests.
+- *test-buttercup* : run your [[https://github.com/jorgenschaefer/emacs-buttercup][buttercup]] tests.
+- *lint-checkdoc* : collect and report checkdoc (the Emacs coding convention tool) errors.
+- *lint-package-lint* : collect and report [[https://github.com/purcell/package-lint][package-lint]] (a linting library for package definitions) errors.
+- *lint-compile* : collect and report errors and warnings from the Emacs Lisp compiler.
+- *lint* : starts all linting-related rules.
+- *test* : starts all test-related rules (both ert and buttercup tests).
+- *check* : starts all lint and test rules.
+- *makel-version* : displays makel's version
 
 What distinguishes makel from similar tools (see below) is its
 simplicity: simplicity to use it in your Emacs package (there are just
@@ -173,6 +169,7 @@ interested in these projects:
 
 - [[https://github.com/cask/cask][Cask]]
 - [[https://github.com/vermiculus/emake.el/][EMake]]
+- [[https://github.com/doublep/eldev][Eldev]]
 
 I designed and implemented makel after having used both Cask and EMake
 for some time. My opinion is that makel is simpler to use and maintain
@@ -187,12 +184,14 @@ Regarding EMake, I opened a few [[https://github.com/vermiculus/emake.el/pulls?q
 need but the maintainer and I disagreed on several core decisions. I
 made sure I agree with all decisions I took for makel :-).
 
+Eldev is a new alternative that seems to be worth keeping an eye
+on. For now, it doesn't support running buttercup or checking the
+quality of the code.
+
 ** License
 
 See [[file:COPYING][COPYING]]. Copyright (c) 2018-2019 Damien Cassou.
 
-  #+BEGIN_HTML
-  <a href="https://liberapay.com/DamienCassou/donate">
-    <img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg">
-  </a>
-  #+END_HTML
+<a href="https://liberapay.com/DamienCassou/donate">
+  <img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg">
+</a>
