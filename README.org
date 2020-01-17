@@ -1,8 +1,10 @@
 * makel
 
+#+begin_export html
 <a href="https://drone.petton.fr/DamienCassou/makel">
   <img src="https://drone.petton.fr/api/badges/DamienCassou/makel/status.svg" />
 </a>
+#+end_export
 
 ** Summary
 
@@ -192,6 +194,8 @@ quality of the code.
 
 See [[file:COPYING][COPYING]]. Copyright (c) 2018-2019 Damien Cassou.
 
+#+begin_export html
 <a href="https://liberapay.com/DamienCassou/donate">
   <img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg">
 </a>
+#+end_export
