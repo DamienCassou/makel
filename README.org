@@ -169,6 +169,7 @@ and could act as examples:
 If you are looking for something similar to makel, you might be
 interested in these projects:
 
+- [[https://github.com/alphapapa/makem.sh][makem.sh]]
 - [[https://github.com/cask/cask][Cask]]
 - [[https://github.com/vermiculus/emake.el/][EMake]]
 - [[https://github.com/doublep/eldev][Eldev]]
@@ -177,6 +178,11 @@ I designed and implemented makel after having used both Cask and EMake
 for some time. My opinion is that makel is simpler to use and maintain
 (it's only a Makefile and it has many unit tests) but may lack some
 features you might need. 
+
+Regarding makem.sh, I suggest you try it if you like makel. It seems
+like it's a better version of it: more features, more documentation,
+easier to setup. I haven't used it yet but I will probably try it
+soon.
 
 Regarding Cask, I was frustrated by the complexity (I mean
 understanding how things work and play together) and warnings/errors I
