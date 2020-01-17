@@ -14,15 +14,15 @@ tests). The Makefile can be used both locally on the developer machine
 and remotely on a continuous integration machine. These are the rules
 provided by ~makel.mk~:
 
-- *test-ert* : run your ERT (the Emacs Lisp Regression Testing tool) tests.
-- *test-buttercup* : run your [[https://github.com/jorgenschaefer/emacs-buttercup][buttercup]] tests.
-- *lint-checkdoc* : collect and report checkdoc (the Emacs coding convention tool) errors.
-- *lint-package-lint* : collect and report [[https://github.com/purcell/package-lint][package-lint]] (a linting library for package definitions) errors.
-- *lint-compile* : collect and report errors and warnings from the Emacs Lisp compiler.
-- *lint* : starts all linting-related rules.
-- *test* : starts all test-related rules (both ert and buttercup tests).
-- *check* : starts all lint and test rules.
-- *makel-version* : displays makel's version
+- test-ert :: run your ERT (the Emacs Lisp Regression Testing tool) tests.
+- test-buttercup :: run your [[https://github.com/jorgenschaefer/emacs-buttercup][buttercup]] tests.
+- lint-checkdoc :: collect and report checkdoc (the Emacs coding convention tool) errors.
+- lint-package-lint :: collect and report [[https://github.com/purcell/package-lint][package-lint]] (a linting library for package definitions) errors.
+- lint-compile :: collect and report errors and warnings from the Emacs Lisp compiler.
+- lint :: starts all linting-related rules.
+- test :: starts all test-related rules (both ert and buttercup tests).
+- check :: starts all lint and test rules.
+- makel-version :: displays makel's version
 
 What distinguishes makel from similar tools (see below) is its
 simplicity: simplicity to use it in your Emacs package (there are just
