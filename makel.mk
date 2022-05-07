@@ -63,7 +63,7 @@ check: test lint
 # Tests
 ####################################
 
-test: test-ert test-buttercup
+test: test-ert test-buttercup test-ecukes
 
 ####################################
 # Tests - ERT
@@ -92,6 +92,26 @@ test-buttercup:
 	    --eval "(require 'buttercup)" \
 	    -f buttercup-run-discover ${TEST_BUTTERCUP_OPTIONS} 2>&1) \
 	    || ( echo "$${output}" && exit 1 ); \
+	fi;
+
+####################################
+# Tests - Ecukes
+####################################
+
+# This rule has to work around the fact that checkdoc doesn't throw
+# errors, it always succeeds. We thus have to check if checkdoc
+# printed anything to decide the exit status of the rule.
+test-ecukes:
+	@if [ -n "${TEST_ECUKES_FEATURE_FILES}" ]; then \
+	  echo "# Run buttercup tests on $(call split_with_commas,${TEST_ECUKES_FEATURE_FILES})"; \
+	  output=$$(${BATCH} \
+	    --eval "(require 'ecukes)" \
+	    -f ecukes-load \
+	    --eval "(ecukes-reporter-use \"magnars\")" \
+	    --eval "(ecukes-run '($(patsubst %,\"%\", ${TEST_ECUKES_FEATURE_FILES})))" \
+	    2>&1); \
+	  echo "$$output" | tail -n 1 | sed -e "s/.*\([0-9]\+\) failed.*/\1/" | grep --quiet "^0$$"; \
+	  [ $${PIPESTATUS[3]} -eq 0 ] || ( echo "$${output}" && exit 1 ); \
 	fi;
 
 ####################################
