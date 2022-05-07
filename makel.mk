@@ -103,7 +103,7 @@ test-buttercup:
 # printed anything to decide the exit status of the rule.
 test-ecukes:
 	@if [ -n "${TEST_ECUKES_FEATURE_FILES}" ]; then \
-	  echo "# Run buttercup tests on $(call split_with_commas,${TEST_ECUKES_FEATURE_FILES})"; \
+	  echo "# Run ecukes tests on $(call split_with_commas,${TEST_ECUKES_FEATURE_FILES})"; \
 	  output=$$(${BATCH} \
 	    --eval "(require 'ecukes)" \
 	    -f ecukes-load \
