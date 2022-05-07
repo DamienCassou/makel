@@ -110,8 +110,8 @@ test-ecukes:
 	    --eval "(ecukes-reporter-use \"magnars\")" \
 	    --eval "(ecukes-run '($(patsubst %,\"%\", ${TEST_ECUKES_FEATURE_FILES})))" \
 	    2>&1); \
-	  echo "$$output" | tail -n 1 | sed -e "s/.*\([0-9]\+\) failed.*/\1/" | grep --quiet "^0$$"; \
-	  [ $${PIPESTATUS[3]} -eq 0 ] || ( echo "$${output}" && exit 1 ); \
+	  ( echo "$$output" | tail -n 1 | sed -e "s/.*\([0-9]\+\) failed.*/\1/" | grep --quiet "^0$$" ) \
+	    || ( echo "$${output}" && exit 1 ); \
 	fi;
 
 ####################################
