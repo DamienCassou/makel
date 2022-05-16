@@ -4,10 +4,13 @@ MAKEL_LOAD_PATH=-L . $(patsubst %,-L ../%,$(ELPA_DEPENDENCIES))
 
 MAKEL_SET_ARCHIVES0=${ELPA_ARCHIVES}
 MAKEL_SET_ARCHIVES1=$(patsubst gnu,(cons \"gnu\" \"https://elpa.gnu.org/packages/\"),${MAKEL_SET_ARCHIVES0})
-MAKEL_SET_ARCHIVES2=$(patsubst melpa,(cons \"melpa\" \"https://melpa.org/packages/\"),${MAKEL_SET_ARCHIVES1})
-MAKEL_SET_ARCHIVES3=$(patsubst melpa-stable,(cons \"melpa-stable\" \"https://stable.melpa.org/packages/\"),${MAKEL_SET_ARCHIVES2})
-MAKEL_SET_ARCHIVES4=$(patsubst org,(cons \"org\" \"https://orgmode.org/elpa/\"),${MAKEL_SET_ARCHIVES3})
-MAKEL_SET_ARCHIVES=(setq package-archives (list ${MAKEL_SET_ARCHIVES4}))
+MAKEL_SET_ARCHIVES2=$(patsubst elpa,(cons \"elpa\" \"https://elpa.gnu.org/packages/\"),${MAKEL_SET_ARCHIVES1}) # alias of the previous one
+MAKEL_SET_ARCHIVES3=$(patsubst elpa-devel,(cons \"gnu\" \"https://elpa.gnu.org/devel/\"),${MAKEL_SET_ARCHIVES2})
+MAKEL_SET_ARCHIVES4=$(patsubst nongnu,(cons \"nongnu\" \"https://elpa.nongnu.org/nongnu/\"),${MAKEL_SET_ARCHIVES3})
+MAKEL_SET_ARCHIVES5=$(patsubst melpa,(cons \"melpa\" \"https://melpa.org/packages/\"),${MAKEL_SET_ARCHIVES4})
+MAKEL_SET_ARCHIVES6=$(patsubst melpa-stable,(cons \"melpa-stable\" \"https://stable.melpa.org/packages/\"),${MAKEL_SET_ARCHIVES5})
+MAKEL_SET_ARCHIVES7=$(patsubst org,(cons \"org\" \"https://orgmode.org/elpa/\"),${MAKEL_SET_ARCHIVES6})
+MAKEL_SET_ARCHIVES=(setq package-archives (list ${MAKEL_SET_ARCHIVES7}))
 
 EMACSBIN?=emacs
 BATCH=$(EMACSBIN) -Q --batch $(MAKEL_LOAD_PATH) \

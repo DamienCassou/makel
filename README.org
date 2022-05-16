@@ -70,7 +70,8 @@ your Makefile:
   ELPA_DEPENDENCIES=package-lint
 
   # List of package archives to download above dependencies
-  # from. Available archives are: gnu, melpa, melpa-stable and org:
+  # from. Available archives are: gnu (aka elpa), elpa-devel, nongnu,
+  # melpa, melpa-stable and org:
   ELPA_ARCHIVES=melpa
 
   # List of ERT test files:

@@ -70,6 +70,32 @@ function check_exit_failure {
 }
 
 ####################################
+# Tests - ELPA ARCHIVES
+####################################
+
+# Check that package-archives is populated properly
+run ELPA_ARCHIVES=gnu debug
+check_output "https://elpa.gnu.org/packages"
+
+run ELPA_ARCHIVES=elpa debug
+check_output "https://elpa.gnu.org/packages"
+
+run ELPA_ARCHIVES=elpa-devel debug
+check_output "https://elpa.gnu.org/devel"
+
+run ELPA_ARCHIVES=nongnu debug
+check_output "https://elpa.nongnu.org/nongnu"
+
+run ELPA_ARCHIVES=melpa debug
+check_output "https://melpa.org/packages"
+
+run ELPA_ARCHIVES=melpa-stable debug
+check_output "https://stable.melpa.org/packages"
+
+run ELPA_ARCHIVES=org debug
+check_output "https://orgmode.org/elpa"
+
+####################################
 # Tests - CI-DEPENDENCIES
 ####################################
 
