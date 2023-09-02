@@ -43,7 +43,7 @@ following code:
                   curl \
                   --fail --silent --show-error --insecure --location \
                   --retry 9 --retry-delay 9 \
-                  -O https://gitlab.petton.fr/DamienCassou/makel/raw/v0.8.0/makel.mk; \
+                  -O https://github.com/DamienCassou/makel/raw/v0.8.0/makel.mk; \
           fi
 
   # Include makel.mk if present
@@ -54,7 +54,7 @@ The lines above indicate that you want to use ~makel.mk~ if present in
 the current directory. If not, you want to use the one from a sibling
 directory (~../makel/makel.mk~) or from Internet.
 
-You decide which [[https://gitlab.petton.fr/DamienCassou/makel/tags][version of makel]] you want to use by changing the URL
+You decide which [[https://github.com/DamienCassou/makel/tags][version of makel]] you want to use by changing the URL
 (here ~v0.8.0~ is the latest version).
 
 ** Usage
@@ -159,11 +159,11 @@ and could act as examples:
 
 | *Package name* | *Description*                                                                                     |
 |----------------+---------------------------------------------------------------------------------------------------|
-| [[https://gitlab.petton.fr/mpdel/libmpdel][libmpdel]]       | Library to communicate with  [[https://www.musicpd.org/][Music Player Daemon]] (MPD), server-side application for playing music |
-| [[https://gitlab.petton.fr/mpdel/mpdel][mpdel]]          | User interface for [[https://www.musicpd.org/][Music Player Daemon]] (MPD), server-side application for playing music           |
-| [[https://gitlab.petton.fr/elcouch/libelcouch][libelcouch]]     | Library to communicate with [[https://couchdb.apache.org/][CouchDB]] databases                                                     |
-| [[https://gitlab.petton.fr/elcouch/elcouch][elcouch]]        | User interface to view and manipulate [[https://couchdb.apache.org/][CouchDB]] databases                                           |
-| [[https://gitlab.petton.fr/DamienCassou/khardel][khardel]]        | User interface to integrate [[https://github.com/scheibler/khard][khard]], a console cardav client                                        |
+| [[https://github.com/mpdel/libmpdel][libmpdel]]       | Library to communicate with  [[https://www.musicpd.org/][Music Player Daemon]] (MPD), server-side application for playing music |
+| [[https://github.com/mpdel/mpdel][mpdel]]          | User interface for [[https://www.musicpd.org/][Music Player Daemon]] (MPD), server-side application for playing music           |
+| [[https://github.com/DamienCassou/libelcouch][libelcouch]]     | Library to communicate with [[https://couchdb.apache.org/][CouchDB]] databases                                                     |
+| [[https://github.com/DamienCassou/elcouch][elcouch]]        | User interface to view and manipulate [[https://couchdb.apache.org/][CouchDB]] databases                                           |
+| [[https://github.com/DamienCassou/khardel][khardel]]        | User interface to integrate [[https://github.com/scheibler/khard][khard]], a console cardav client                                        |
 
 ** Alternatives
 
