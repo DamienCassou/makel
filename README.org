@@ -201,7 +201,7 @@ quality of the code.
 
 ** License
 
-See [[file:COPYING][COPYING]]. Copyright (c) 2018-2019 Damien Cassou.
+See [[file:COPYING][COPYING]]. Copyright (c) 2018-2023 Damien Cassou.
 
 #+begin_export html
 <a href="https://liberapay.com/DamienCassou/donate">
