@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        emacs_version:
+          - 29.1
+    steps:
+    - name: Set up Emacs
+      uses: purcell/setup-emacs@master
+      with:
+        version: ${{matrix.emacs_version}}
+
+    - name: Check out the source code
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        emacs --version
+        emacs -Q --batch --eval "(require 'package)" --eval "(setq package-archives '((\"melpa\" . \"https://melpa.org/packages/\") (\"gnu\" . \"https://elpa.gnu.org/packages/\")))" --funcall package-initialize --funcall package-refresh-contents --eval "(package-install 'package-lint)" --eval "(package-install 'buttercup)"
+
+    - name: Run unit tests
+      run: |
+        cd test && bash ./run-tests.sh

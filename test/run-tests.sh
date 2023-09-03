@@ -249,7 +249,7 @@ check_not_output "^test-lint-compile-ok.el:"
 
 # Check that compilation of an unclean file echoes an error line
 run LINT_COMPILE_FILES="data/test-lint-compile-ko.el" lint-compile
-check_output "data/test-lint-compile-ko.el:2:1:Error: the function .foo. is not known to be defined."
+check_output "data/test-lint-compile-ko.el: Error: the function .foo. is not known to be defined."
 
 # Check that compilation of a clean file exits with success status
 run LINT_COMPILE_FILES="data/test-lint-compile-ok.el" lint-compile

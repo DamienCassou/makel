@@ -1,10 +1,12 @@
 * makel
 
-#+begin_export html
-<a href="https://drone.petton.fr/DamienCassou/makel">
-  <img src="https://drone.petton.fr/api/badges/DamienCassou/makel/status.svg" />
-</a>
-#+end_export
+  #+BEGIN_HTML
+      <p>
+        <a href="https://github.com/DamienCassou/makel/actions">
+          <img alt="pipeline status" src="https://github.com/DamienCassou/makel/actions/workflows/test.yml/badge.svg" />
+        </a>
+      </p>
+  #+END_HTML
 
 ** Summary
 
