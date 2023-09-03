@@ -1,6 +1,6 @@
 ;;; test-lint-checkdoc-ok.el --- File with no checkdoc problem  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2018  Damien Cassou
+;; Copyright (C) 2018-2023  Damien Cassou
 
 ;; Author: Damien Cassou <damien@cassou.me>
 
