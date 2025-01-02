@@ -156,11 +156,12 @@ make: *** [makel.mk:55: test-ert] Error 1
 
 ** Emacs packages using makel
 
-The following Emacs packages (all from me :-)) are already using makel
+The following Emacs packages are already using makel
 and could act as examples:
 
 | *Package name* | *Description*                                                                                     |
 |----------------+---------------------------------------------------------------------------------------------------|
+| [[https://github.com/tarides/ocaml-eglot][ocaml-eglot]]    | Minor mode for editing OCaml using LSP through Eglot                                              |
 | [[https://github.com/mpdel/libmpdel][libmpdel]]       | Library to communicate with  [[https://www.musicpd.org/][Music Player Daemon]] (MPD), server-side application for playing music |
 | [[https://github.com/mpdel/mpdel][mpdel]]          | User interface for [[https://www.musicpd.org/][Music Player Daemon]] (MPD), server-side application for playing music           |
 | [[https://github.com/DamienCassou/libelcouch][libelcouch]]     | Library to communicate with [[https://couchdb.apache.org/][CouchDB]] databases                                                     |
