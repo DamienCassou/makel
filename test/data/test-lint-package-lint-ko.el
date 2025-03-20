@@ -1,6 +1,6 @@
 ;;; test-lint-package-lint-ok.el --- Something       -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2018-2023  Damien Cassou
+;; Copyright (C) 2018-2025  Damien Cassou
 
 ;; Author: Damien Cassou <damien@cassou.me>
 ;; Url: https://github.com/DamienCassou/makel
