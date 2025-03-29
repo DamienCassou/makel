@@ -4,7 +4,7 @@
 
 ;; Author: Damien Cassou <damien@cassou.me>
 ;; Url: https://github.com/DamienCassou/makel
-;; Package-requires: ((emacs "23.1"))
+;; Package-Requires: ((emacs "23.1"))
 ;; Version: 0.1.0
 
 ;; This program is free software; you can redistribute it and/or modify

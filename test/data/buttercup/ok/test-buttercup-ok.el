@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 (require 'buttercup)
 
 (describe "test-buttercup-ok"
